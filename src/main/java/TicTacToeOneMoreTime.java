@@ -5,12 +5,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import static com.sun.javafx.robot.impl.FXRobotHelper.getChildren;
 import static javafx.application.Application.launch;
+import static javafx.geometry.Pos.TOP_CENTER;
 
 public class TicTacToeOneMoreTime extends Application {
 
@@ -104,8 +105,9 @@ public class TicTacToeOneMoreTime extends Application {
 //        getChildren(grid).add(o);
 //        o.setOnAction(ActionEvent -> player = o.getText());
 
-
-
+            label.setPrefSize(40,20);
+            label.setAlignment(TOP_CENTER);
+            getChildren(grid).add(label);
 
 
             newGame.setPrefSize(100, 20);
@@ -128,12 +130,8 @@ public class TicTacToeOneMoreTime extends Application {
                 button1.setDisable(true);// klika tylko 1 raz w 1 button
                 button1Value = true;
                 if (button1Value && button2Value && button3Value) {
-//            label.setText("YOU WON");
-                    System.out.println("win");
-                } else {
-                    System.out.println("");;
+                    label.setText("YOU WON");
                 }
-
             });
 
             button2.setOnAction(event -> {
@@ -141,12 +139,8 @@ public class TicTacToeOneMoreTime extends Application {
                 button2.setDisable(true);
                 button2Value = true;
                 if (button1Value && button2Value && button3Value) {
-//            label.setText("YOU WON");
-                    System.out.println("win");
-                } else {
-                    System.out.println("");;
+                    label.setText("YOU WON");
                 }
-
             });
 
             button3.setOnAction(event -> {
@@ -228,12 +222,12 @@ public class TicTacToeOneMoreTime extends Application {
                     button3Value && button6Value && button9Value || //pion
                     button1Value && button5Value && button9Value || button3Value && button5Value && button7Value) //skos
             {
-//            label.setText("YOU WON");
-                System.out.println(win);
+            label.setText("YOU WON");
+
             } else {
-                System.out.println("hi");;
             }
         }
+
 
         public static void main(String[] args) {
 
