@@ -5,12 +5,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static com.sun.javafx.robot.impl.FXRobotHelper.getChildren;
-import static javafx.application.Application.launch;
 import static javafx.geometry.Pos.TOP_CENTER;
 
 public class TicTacToeOneMoreTime extends Application {
@@ -26,17 +28,24 @@ public class TicTacToeOneMoreTime extends Application {
         char player = 'X';
         Label label = new Label(" ");
         boolean win = false;
-        boolean button1Value = false;
-        boolean button2Value = false;
-        boolean button3Value = false;
-        boolean button4Value = false;
-        boolean button5Value = false;
-        boolean button6Value = false;
-        boolean button7Value = false;
-        boolean button8Value = false;
-        boolean button9Value = false;
 
-        VBox vbox = new VBox();
+        List<Integer> horizontal1 = Arrays.asList(1, 2, 3);
+        List<Integer> horizontal2 = Arrays.asList(4, 5, 6);
+        List<Integer> horizontal3 = Arrays.asList(7, 8, 9);
+        List<Integer> vertical1 = Arrays.asList(1, 4, 7);
+        List<Integer> vertical2 = Arrays.asList(2, 5, 8);
+        List<Integer> vertical3 = Arrays.asList(3, 6, 9);
+        List<Integer> diagonal1 = Arrays.asList(1, 5, 9);
+        List<Integer> diagonal2 = Arrays.asList(3, 5, 7);
+
+    List<List<Integer>> listOfList = Arrays.asList(horizontal1, horizontal2, horizontal3,
+            vertical1, vertical2, vertical3, diagonal1, diagonal2);
+
+    List<Integer> playersMoves = new ArrayList<>();
+    List<Integer> computersMover = new ArrayList<>();
+
+
+
 
 
 
@@ -105,7 +114,7 @@ public class TicTacToeOneMoreTime extends Application {
 //        getChildren(grid).add(o);
 //        o.setOnAction(ActionEvent -> player = o.getText());
 
-            label.setPrefSize(40,20);
+            label.setPrefSize(100,40);
             label.setAlignment(TOP_CENTER);
             getChildren(grid).add(label);
 
@@ -128,105 +137,100 @@ public class TicTacToeOneMoreTime extends Application {
             button1.setOnAction(event -> {
                 button1.setText(String.valueOf(player));
                 button1.setDisable(true);// klika tylko 1 raz w 1 button
-                button1Value = true;
-                if (button1Value && button2Value && button3Value) {
-                    label.setText("YOU WON");
-                }
+                button1.isDisabled();  //klikniety true false
+                playersMoves.add(1); //dodanie do listy
+                check();
             });
 
             button2.setOnAction(event -> {
                 button2.setText(String.valueOf(player));
                 button2.setDisable(true);
-                button2Value = true;
-                if (button1Value && button2Value && button3Value) {
-                    label.setText("YOU WON");
-                }
+                button2.isDisabled();
+                playersMoves.add(2);
+                check();
             });
 
             button3.setOnAction(event -> {
                 button3.setText(String.valueOf(player));
                 button3.setDisable(true);
-                button3Value = true;
+                button3.isDisabled();
+                playersMoves.add(3);
+                check();
             });
 
             button4.setOnAction(event -> {
                 button4.setText(String.valueOf(player));
                 button4.setDisable(true);
-                button4Value = true;
+                button4.isDisabled();
+                playersMoves.add(4);
+                check();
             });
 
             button5.setOnAction(event -> {
                 button5.setText(String.valueOf(player));
                 button5.setDisable(true);
-                button5Value = true;
+                button5.isDisabled();
+                playersMoves.add(5);
+                check();
             });
 
             button6.setOnAction(event -> {
                 button6.setText(String.valueOf(player));
                 button6.setDisable(true);
-                button6Value = true;
+                button6.isDisabled();
+                playersMoves.add(6);
+                check();
             });
 
             button7.setOnAction(event -> {
                 button7.setText(String.valueOf(player));
                 button7.setDisable(true);
-                button7Value = true;
+                button7.isDisabled();
+                playersMoves.add(7);
+                check();
             });
 
             button8.setOnAction(event -> {
                 button8.setText(String.valueOf(player));
                 button8.setDisable(true);
-                button8Value = true;
+                button8.isDisabled();
+                playersMoves.add(8);
+                check();
             });
 
             button9.setOnAction(event -> {
                 button9.setText(String.valueOf(player));
                 button9.setDisable(true);
-                button9Value = true;
+                button9.isDisabled();
+                playersMoves.add(9);
+                check();
             });
         }
 
-        //    public boolean win() {
-//
-//        if (button1.getText().equals(button2.getText().equals(button3.getText()))) {
-//            return true;
-//        }
-//        if (button4.getText().equals(button5.getText().equals(button6.getText()))) {
-//            return true;
-//        }
-//        if (button7.getText().equals(button8.getText().equals(button9.getText()))) {
-//            return true;
-//        }
-//        if (button1.getText().equals(button4.getText().equals(button7.getText()))) {
-//            return true;
-//        }
-//        if (button2.getText().equals(button5.getText().equals(button8.getText()))) {
-//            return true;
-//        }
-//        if (button3.getText().equals(button6.getText().equals(button9.getText()))) {
-//            return true;
-//        }
-//        if (button1.getText().equals(button5.getText().equals(button9.getText()))) {
-//            return true;
-//        }
-//        if (button3.getText().equals(button5.getText().equals(button7.getText()))) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
         public void check(){
-            if     (button1Value && button2Value && button3Value || button4Value && button5Value && button6Value ||
-                    button7Value && button8Value && button9Value || //poziom
-                    button1Value && button3Value && button7Value || button2Value && button5Value && button8Value ||
-                    button3Value && button6Value && button9Value || //pion
-                    button1Value && button5Value && button9Value || button3Value && button5Value && button7Value) //skos
-            {
-            label.setText("YOU WON");
+//            if     (button1Value && button2Value && button3Value || button4Value && button5Value && button6Value ||
+//                    button7Value && button8Value && button9Value || //poziom
+//                    button1Value && button3Value && button7Value || button2Value && button5Value && button8Value ||
+//                    button3Value && button6Value && button9Value || //pion
+//                    button1Value && button5Value && button9Value || button3Value && button5Value && button7Value) //skos
+//            {
+//            label.setText("YOU WON");
 
-            } else {
+
+            for (List playersList : listOfList) {
+                playersMoves.containsAll(playersList); //true lub false, true player won
+                if (playersList.equals(true) {
+                    System.out.println("WON");
+                }
+
             }
+
+            for (List computer: listOfList) {
+                computersMover.containsAll(computer);
+            }
+
         }
+
 
 
         public static void main(String[] args) {
