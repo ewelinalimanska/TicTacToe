@@ -2,6 +2,7 @@ package main.java;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +12,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import static com.sun.javafx.robot.impl.FXRobotHelper.getChildren;
 import static javafx.geometry.Pos.TOP_CENTER;
@@ -18,14 +21,25 @@ import static javafx.geometry.Pos.TOP_CENTER;
 public class TicTacToeOneMoreTime extends Application {
 
 
-        Button button1, button2, button3, button4, button5, button6, button7, button8, button9;
-        Button []buttons;
+    Button button1 = new Button();
+    Button button2 = new Button();
+    Button button3 = new Button();
+    Button button4 = new Button();
+    Button button5 = new Button();
+    Button button6 = new Button();
+    Button button7 = new Button();
+    Button button8 = new Button();
+    Button button9 = new Button();
+
+
+    Button []buttons = new Button[] {button1, button2, button3, button4, button5, button6, button7, button8, button9};
+
+        List<Button> buttonsList = Arrays.asList(buttons);
 
         Button newGame = new Button("New Game");
         Button exit = new Button("Exit");
-        //Button x = new Button("X");
-        // Button o = new Button("O");
         char player = 'X';
+        char computer = 'O';
         Label label = new Label(" ");
         boolean win = false;
 
@@ -42,45 +56,16 @@ public class TicTacToeOneMoreTime extends Application {
             vertical1, vertical2, vertical3, diagonal1, diagonal2);
 
     List<Integer> playersMoves = new ArrayList<>();
-    List<Integer> computersMover = new ArrayList<>();
+    List<Integer> computersMoves = new ArrayList<>();
+    List<Integer> possibleMoves = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-
-
-
-
-
-
-
-//    public char getPlayer() {
-//        return player;
-//    }
-//    public void setPlayer(char sign) {
-//        player = sign;
-//
-//        if (player == 'X') {
-//            Text text = new Text("X");
-//
-//        } else if (player == 'O') {
-//            Text text = new Text("O");
-//        }
-//    }
+    Random random = new Random();
 
         @Override
         public void start(Stage primaryStage) throws Exception {
 
             //stworzenie komórek
             GridPane grid = new GridPane();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            button5 = new Button();
-            button6 = new Button();
-            button7 = new Button();
-            button8 = new Button();
-            button9 = new Button();
-
-            buttons = new Button[] {button1, button2, button3, button4, button5, button6, button7, button8, button9};
 
             for (Button button : buttons) {
                 button.setMinSize(100,100);
@@ -100,19 +85,6 @@ public class TicTacToeOneMoreTime extends Application {
             primaryStage.setTitle("TicTacToe");
             primaryStage.setScene(scene);
             primaryStage.show();
-
-//        x.setPrefSize(40, 20);
-//        x.setTranslateX(320);
-//        x.setTranslateY(20);
-//        getChildren(grid).add(x);
-//        x.setOnAction(ActionEvent -> token = 'X');
-//
-
-//        o.setPrefSize(40, 20);
-//        o.setTranslateX(370);
-//        o.setTranslateY(20);
-//        getChildren(grid).add(o);
-//        o.setOnAction(ActionEvent -> player = o.getText());
 
             label.setPrefSize(100,40);
             label.setAlignment(TOP_CENTER);
@@ -139,7 +111,9 @@ public class TicTacToeOneMoreTime extends Application {
                 button1.setDisable(true);// klika tylko 1 raz w 1 button
                 button1.isDisabled();  //klikniety true false
                 playersMoves.add(1); //dodanie do listy
+                possibleMoves.remove(Integer.valueOf(1));
                 check();
+                computerMove();
             });
 
             button2.setOnAction(event -> {
@@ -148,6 +122,7 @@ public class TicTacToeOneMoreTime extends Application {
                 button2.isDisabled();
                 playersMoves.add(2);
                 check();
+                computerMove();
             });
 
             button3.setOnAction(event -> {
@@ -156,6 +131,7 @@ public class TicTacToeOneMoreTime extends Application {
                 button3.isDisabled();
                 playersMoves.add(3);
                 check();
+                computerMove();
             });
 
             button4.setOnAction(event -> {
@@ -164,6 +140,7 @@ public class TicTacToeOneMoreTime extends Application {
                 button4.isDisabled();
                 playersMoves.add(4);
                 check();
+                computerMove();
             });
 
             button5.setOnAction(event -> {
@@ -172,6 +149,7 @@ public class TicTacToeOneMoreTime extends Application {
                 button5.isDisabled();
                 playersMoves.add(5);
                 check();
+                computerMove();
             });
 
             button6.setOnAction(event -> {
@@ -180,6 +158,7 @@ public class TicTacToeOneMoreTime extends Application {
                 button6.isDisabled();
                 playersMoves.add(6);
                 check();
+                computerMove();
             });
 
             button7.setOnAction(event -> {
@@ -188,6 +167,7 @@ public class TicTacToeOneMoreTime extends Application {
                 button7.isDisabled();
                 playersMoves.add(7);
                 check();
+                computerMove();
             });
 
             button8.setOnAction(event -> {
@@ -196,6 +176,7 @@ public class TicTacToeOneMoreTime extends Application {
                 button8.isDisabled();
                 playersMoves.add(8);
                 check();
+                computerMove();
             });
 
             button9.setOnAction(event -> {
@@ -204,30 +185,97 @@ public class TicTacToeOneMoreTime extends Application {
                 button9.isDisabled();
                 playersMoves.add(9);
                 check();
+                computerMove();
             });
         }
 
         public void check(){
-//            if     (button1Value && button2Value && button3Value || button4Value && button5Value && button6Value ||
-//                    button7Value && button8Value && button9Value || //poziom
-//                    button1Value && button3Value && button7Value || button2Value && button5Value && button8Value ||
-//                    button3Value && button6Value && button9Value || //pion
-//                    button1Value && button5Value && button9Value || button3Value && button5Value && button7Value) //skos
-//            {
-//            label.setText("YOU WON");
 
 
             for (List playersList : listOfList) {
-                playersMoves.containsAll(playersList); //true lub false, true player won
-                if (playersList.equals(true) {
-                    System.out.println("WON");
+                boolean playerWon = playersMoves.containsAll(playersList);//true lub false, true player won
+                if (playerWon) {
+                    System.out.println("PLAYER WON!");
                 }
 
             }
 
             for (List computer: listOfList) {
-                computersMover.containsAll(computer);
+                boolean computerWon = computersMoves.containsAll(computer);
+                if (computerWon){
+                    System.out.println("COMPUTER WON!");
+                }
             }
+
+        }
+
+        public void computerMove(){
+            int computerChoice = random.nextInt(possibleMoves.size());
+            if (computerChoice == 0) {
+                button1.setText(String.valueOf(computer));
+                button1.setDisable(true);
+                computersMoves.add(1);
+                check();
+            }
+            if (computerChoice == 0) {
+                button2.setText(String.valueOf(computer));
+                button2.setDisable(true);
+                computersMoves.add(2);
+                check();
+            }
+            if (computerChoice == 0) {
+                button3.setText(String.valueOf(computer));
+                button3.setDisable(true);
+                computersMoves.add(3);
+                check();
+            }
+            if (computerChoice == 0) {
+                button4.setText(String.valueOf(computer));
+                button4.setDisable(true);
+                computersMoves.add(4);
+                check();
+            }
+            if (computerChoice == 0) {
+                button5.setText(String.valueOf(computer));
+                button5.setDisable(true);
+                computersMoves.add(5);
+                check();
+            }
+            if (computerChoice == 0) {
+                button6.setText(String.valueOf(computer));
+                button6.setDisable(true);
+                computersMoves.add(6);
+                check();
+            }
+            if (computerChoice == 0) {
+                button7.setText(String.valueOf(computer));
+                button7.setDisable(true);
+                computersMoves.add(7);
+                check();
+            }
+            if (computerChoice == 0) {
+                button8.setText(String.valueOf(computer));
+                button8.setDisable(true);
+                computersMoves.add(8);
+                check();
+            }
+            if (computerChoice == 0) {
+                button9.setText(String.valueOf(computer));
+                button9.setDisable(true);
+                computersMoves.add(9);
+                check();
+            }
+
+            List<Button> avaibleButtons = buttonsList.stream()
+                    .filter(Node::isDisabled)
+                    .collect(Collectors.toList());
+
+            int choice = random.nextInt(avaibleButtons.size());
+            Button button = avaibleButtons.get(choice);
+            button.setDisable(true);
+            button.setText(String.valueOf(computer));
+            check();
+
 
         }
 
